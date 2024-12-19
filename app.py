@@ -91,6 +91,7 @@ def register():
             st.session_state.logged_in = True
             st.session_state.username = new_username  
             st.session_state.student_id = new_student_id  
+            reservation_system()  # 회원가입 후 자동으로 예약 시스템으로 이동
 
 # 로그인 페이지
 def login():
@@ -104,10 +105,7 @@ def login():
             st.session_state.username = username
             st.session_state.student_id = student_id  
             st.success(f"환영합니다, {username}님!")
-            reservation_system()  
-
-        else:
-            st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
+            reservation_system()  # 로그인 후 자동으로 예약 시스템으로 이동
 
 # 예약 타임테이블 생성
 def create_timetable():
@@ -200,9 +198,6 @@ def view_reservations():
 def main():  
    daily_reset()  
 
-   # Streamlit 페이지 설정 및 배경 색상 추가
-   # 이미 위에서 설정했으므로 이 부분은 필요 없음
-
    # 사이드바 메뉴 설정 - 로그인 페이지를 먼저 보여주기 위해 순서 변경 
    menu_options=["로그인","회원가입","예약 시스템","내 예약 현황"]  
 
@@ -222,4 +217,4 @@ def main():
        view_reservations()  
 
 if __name__ == "__main__":  
-   main()  
+   main()
