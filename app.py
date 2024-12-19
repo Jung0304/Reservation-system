@@ -79,7 +79,6 @@ def register():
     st.header("회원가입")
     new_username = st.text_input("새 사용자명", key="register_username")
     new_student_id = st.text_input("학번", key="register_student_id")
-    new_phone_number = st.text_input("전화번호", key="register_phone_number")
     
     if st.button("가입하기"):
         if new_username in users:
@@ -106,8 +105,6 @@ def login():
             st.session_state.student_id = student_id  
             st.success(f"환영합니다, {username}님!")
             reservation_system()  # 로그인 후 자동으로 예약 시스템으로 이동
-        else:
-            st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
 
 # 예약 타임테이블 생성
 def create_timetable():
@@ -171,6 +168,7 @@ def reservation_system():
                     
                     # 예외 처리 추가
                     try:
+                        # 사용자의 예약 정보 저장
                         st.session_state.reservations[space][time] = st.session_state.username
                         save_reservations(st.session_state.reservations)  
                         st.success(f"{space} - {time} 예약이 완료되었습니다!")
