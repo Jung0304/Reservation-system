@@ -150,8 +150,8 @@ def reservation_system():
 
     # 모바일 화면에서 열의 수를 동적으로 조정 (너비가 좁으면 2개씩, 넓으면 다 표시)
     if st.sidebar.selectbox("화면 크기 선택", ["모바일", "PC"]) == "모바일":
-        # 모바일 화면에서는 2개씩 열을 표시
-        num_columns = 2
+        # 모바일 화면에서는 3개씩 열을 표시
+        num_columns = 3
     else:
         # PC 화면에서는 모든 열을 표시
         num_columns = len(spaces)
