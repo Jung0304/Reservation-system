@@ -65,14 +65,15 @@ hide_st_style = """
         margin-left: 10px;  /* 왼쪽에 여백 추가 */
     }
     .stButton {
-        background-color: #4CAF50;  /* 버튼 배경 색 */
-        color: white;  /* 버튼 글자 색 */
+        background-color: #FFFFFF;  /* 버튼 배경을 흰색으로 */
+        color: #000000;  /* 버튼 글자 색을 검은색으로 */
         font-size: 16px;  /* 버튼 글자 크기 */
         padding: 10px;  /* 버튼 안쪽 여백 */
         border-radius: 5px;  /* 버튼 모서리 둥글게 */
+        border: 1px solid #000000;  /* 버튼 테두리 */
     }
     .stButton:hover {
-        background-color: #45a049;  /* 버튼 호버 시 색상 변경 */
+        background-color: #f1f1f1;  /* 버튼 호버 시 색상 변경 */
     }
     @media (max-width: 600px) {
         h1 {
