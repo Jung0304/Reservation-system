@@ -81,6 +81,8 @@ def login():
             st.session_state.username = username
             st.session_state.student_id = student_id  # 학번도 세션에 저장
             st.success(f"환영합니다, {username}님!")
+            # 로그인 후 예약 시스템으로 자동 이동
+            reservation_system()
         else:
             st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
 
