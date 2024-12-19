@@ -56,14 +56,17 @@ hide_st_style = """
         background-color: #f0f0f5;
         font-family: 'Arial', sans-serif;
     }
+    h1 {
+        font-size: 1.5em;  /* 제목 크기 줄이기 */
+    }
     h3 {
-        font-size: 1.2em;  /* 모바일에서 제목 크기 조정 */
+        font-size: 1.1em;  /* 장소 이름 크기 줄이기 */
         text-align: left;  /* 제목 왼쪽 정렬 */
         margin-left: 10px;  /* 왼쪽에 여백 추가 */
     }
     @media (max-width: 600px) {
-        h3 {
-            font-size: 1em;  /* 모바일에서 제목 크기 더 작은 크기 설정 */
+        h1 {
+            font-size: 1.2em;  /* 모바일에서 제목 크기 더 작은 크기 설정 */
         }
         .stButton {
             width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
@@ -136,7 +139,7 @@ def reservation_system():
         return
     
     # 페이지 제목 및 환영 메시지
-    st.title("당일 공간 예약 시스템")
+    st.title("예공 과방 대여")  # 제목 변경
     st.write(f"안녕하세요, {st.session_state.username}님!")
     
     today = datetime.now().date()
