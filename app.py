@@ -67,8 +67,8 @@ hide_st_style = """
             width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
         }
         .table-container {
-            display: block; /* 모바일에서 그리드를 블록으로 표시 */
             overflow-x: auto; /* 가로 스크롤 가능하게 설정 */
+            display: block; /* 블록으로 표시하여 모바일에서도 잘 보이도록 설정 */
         }
     }
     </style>
