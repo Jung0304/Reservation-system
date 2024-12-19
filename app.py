@@ -66,6 +66,10 @@ hide_st_style = """
         .stButton {
             width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
         }
+        .table-container {
+            display: block; /* 모바일에서 그리드를 블록으로 표시 */
+            overflow-x: auto; /* 가로 스크롤 가능하게 설정 */
+        }
     }
     </style>
 """
@@ -75,8 +79,8 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 def register():
     st.header("회원가입")
     new_username = st.text_input("새 사용자명", key="register_username")
-    new_student_id = st.text_input("학번", key="register_student_id")  
-    new_phone_number = st.text_input("전화번호", key="register_phone_number")  
+    new_student_id = st.text_input("학번", key="register_student_id")
+    new_phone_number = st.text_input("전화번호", key="register_phone_number")
     
     if st.button("가입하기"):
         if new_username in users:
@@ -96,7 +100,8 @@ def login():
     student_id = st.text_input("학번", key="login_student_id")  
     
     if st.button("로그인"):
-        if username in users and users[username] == student_id:  
+        users = load_users()  
+        if username in users and users[username] == student_id:
             st.session_state.logged_in = True
             st.session_state.username = username
             st.session_state.student_id = student_id  
@@ -216,3 +221,4 @@ def main():
 
 if __name__ == "__main__":  
    main()  
+ 
