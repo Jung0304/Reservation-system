@@ -8,7 +8,7 @@ USER_DATA_FILE = "users.json"
 RESERVATIONS_FILE = "reservations.json"  # 예약 정보를 저장할 파일
 
 # 가상의 공간 데이터
-spaces = ["GRAY", "BLUE", "SILVER", "GOLD", "GLAB1", "BLAB2"]
+spaces = ["GRAY", "BLUE", "SILVER", "GOLD", "GLAB1", "GLAB2"]
 
 # 세션 상태 초기화
 if 'logged_in' not in st.session_state:
