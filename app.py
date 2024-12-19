@@ -148,35 +148,40 @@ def reservation_system():
             for time, user in st.session_state.reservations[space].items():
                 timetable.at[time, space] = user
 
+    # 모바일 화면에서 열의 수를 동적으로 조정 (너비가 좁으면 2개씩, 넓으면 다 표시)
+    if st.sidebar.selectbox("화면 크기 선택", ["모바일", "PC"]) == "모바일":
+        # 모바일 화면에서는 2개씩 열을 표시
+        num_columns = 2
+    else:
+        # PC 화면에서는 모든 열을 표시
+        num_columns = len(spaces)
+
     # 타임테이블을 표 형식으로 표시하고 버튼 추가
-    cols = st.columns(len(spaces))  # 화면 크기에 맞게 자동으로 조정됨
+    rows = len(timetable.index)
+    for i in range(0, len(spaces), num_columns):
+        cols = st.columns(num_columns)  # 동적으로 열을 추가
 
-    # 첫 번째 행에 공간 이름 표시 
-    for i, space in enumerate(spaces):
-        cols[i].write(f"<h3 style='text-align: center;'>{space}</h3>", unsafe_allow_html=True)
+        for col, space in zip(cols, spaces[i:i + num_columns]):
+            with col:
+                st.write(f"<h3 style='text-align: center;'>{space}</h3>", unsafe_allow_html=True)
+                for time in timetable.index:
+                    button_text = f"{time}"  
 
-    # 각 공간에 대해 버튼 생성 
-    for time in timetable.index:
-        cols = st.columns(len(spaces))  # 각 시간마다 열을 동적으로 생성
-        
-        for i, space in enumerate(spaces):
-            button_text = f"{time}"  
-            
-            if space in st.session_state.reservations and time in st.session_state.reservations[space]:
-                cols[i].write(f"🔒 {st.session_state.reservations[space][time]}")
-                cols[i].markdown("<span style='color: red;'>예약 완료</span>", unsafe_allow_html=True)
-            else:
-                if cols[i].button(button_text, key=f"{space}-{time}", help=f"{space} 예약하기"):
-                    if not can_reserve(st.session_state.username):
-                        st.warning("하루에 최대 4시간까지만 예약할 수 있습니다.")
-                        return
-                    
-                    if space not in st.session_state.reservations:
-                        st.session_state.reservations[space] = {}
-                    st.session_state.reservations[space][time] = st.session_state.username
-                    
-                    save_reservations(st.session_state.reservations)  
-                    st.success(f"{space} - {time} 예약이 완료되었습니다!")
+                    if space in st.session_state.reservations and time in st.session_state.reservations[space]:
+                        st.write(f"🔒 {st.session_state.reservations[space][time]}")
+                        st.markdown("<span style='color: red;'>예약 완료</span>", unsafe_allow_html=True)
+                    else:
+                        if st.button(button_text, key=f"{space}-{time}", help=f"{space} 예약하기"):
+                            if not can_reserve(st.session_state.username):
+                                st.warning("하루에 최대 4시간까지만 예약할 수 있습니다.")
+                                return
+                            
+                            if space not in st.session_state.reservations:
+                                st.session_state.reservations[space] = {}
+                            st.session_state.reservations[space][time] = st.session_state.username
+                            
+                            save_reservations(st.session_state.reservations)  
+                            st.success(f"{space} - {time} 예약이 완료되었습니다!")
 
 # 매일 자정마다 예약 초기화 기능 추가 
 def daily_reset():
