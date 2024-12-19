@@ -106,6 +106,8 @@ def login():
             st.session_state.student_id = student_id  
             st.success(f"환영합니다, {username}님!")
             reservation_system()  # 로그인 후 자동으로 예약 시스템으로 이동
+        else:
+            st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
 
 # 예약 타임테이블 생성
 def create_timetable():
