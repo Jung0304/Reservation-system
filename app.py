@@ -79,7 +79,6 @@ def register():
     st.header("회원가입")
     new_username = st.text_input("새 사용자명", key="register_username")
     new_student_id = st.text_input("학번", key="register_student_id")
-    new_phone_number = st.text_input("전화번호", key="register_phone_number")
     
     if st.button("가입하기"):
         if new_username in users:
@@ -88,6 +87,7 @@ def register():
             users[new_username] = new_student_id  # 학번을 비밀번호 대신 저장
             save_users(users)
             st.success("회원가입과 로그인이 완료되었습니다! 예약 시스템 페이지로 이동하세요.")
+            # 로그인 상태 업데이트
             st.session_state.logged_in = True
             st.session_state.username = new_username  
             st.session_state.student_id = new_student_id  
@@ -99,12 +99,15 @@ def login():
     student_id = st.text_input("학번", key="login_student_id")
     
     if st.button("로그인"):
-        if username in users and users[username] == student_id:
+        if username in users and users[username] == student_id:  # 비밀번호 체크 시 학번 사용
             st.session_state.logged_in = True
             st.session_state.username = username
             st.session_state.student_id = student_id  
             st.success(f"환영합니다, {username}님!")
+            
+            # 로그인 후 예약 페이지로 이동 (함수 호출)
             reservation_system()  
+
         else:
             st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
 
@@ -156,8 +159,8 @@ def reservation_system():
         for i, space in enumerate(spaces):
             button_text = f"{time}"  
             
-            if space in st.session_state.reservations and time in st.session_state.reservations[space]:
-                cols[i].write(f"🔒 {st.session_state.reservations[space][time]}")
+            if space in timetable.columns and time in timetable.index and timetable.at[time, space]:
+                cols[i].write(f"🔒 {timetable.at[time, space]}")
                 cols[i].markdown("<span style='color: red;'>예약 완료</span>", unsafe_allow_html=True)
             else:
                 if cols[i].button(button_text, key=f"{space}-{time}", help=f"{space} 예약하기"):
