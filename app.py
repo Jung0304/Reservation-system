@@ -73,55 +73,6 @@ def save_reservations(reservations):
 users = load_users()
 # 예약 정보 로드
 st.session_state.reservations = load_reservations()
-
-# 회원가입 페이지
-def register():
-    st.header("회원가입")
-    new_username = st.text_input("새 사용자명", key="register_username")
-    new_student_id = st.text_input("학번", key="register_student_id")
-    new_phone_number = st.text_input("전화번호", key="register_phone_number")
-    
-    if st.button("가입하기"):
-        if new_username in users:
-            st.error("이미 존재하는 사용자명입니다.")
-        else:
-            users[new_username] = new_student_id  # 학번을 비밀번호 대신 저장
-            save_users(users)
-            st.success("회원가입과 로그인이 완료되었습니다! 예약 시스템 페이지로 이동하세요.")
-            st.session_state.logged_in = True
-            st.session_state.username = new_username  
-            st.session_state.student_id = new_student_id  
-            reservation_system()  # 회원가입 후 자동으로 예약 시스템으로 이동
-
-# 로그인 페이지
-def login():
-    st.header("로그인")
-    username = st.text_input("사용자명", key="login_username")
-    student_id = st.text_input("학번", key="login_student_id")
-    
-    if st.button("로그인"):
-        if username in users and users[username] == student_id:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.session_state.student_id = student_id  
-            st.success(f"환영합니다, {username}님!")
-            reservation_system()  # 로그인 후 자동으로 예약 시스템으로 이동
-        else:
-            st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
-
-# 예약 타임테이블 생성
-def create_timetable():
-    hours = [f"{i:02d}:00-{i+1:02d}:00" for i in range(9, 21)]
-    df = pd.DataFrame(index=hours, columns=spaces)
-    return df
-
-# 하루 최대 4시간 예약 제한 체크
-def can_reserve(username):
-    reserved_hours = sum(1 for space in spaces if space in st.session_state.reservations for user in 
-                         st.session_state.reservations[space].values() if user == username)
-    
-    return reserved_hours < 4
-
 # 예약 시스템 페이지
 def reservation_system():
     if not st.session_state.logged_in:
@@ -176,6 +127,55 @@ def reservation_system():
                         st.success(f"{space} - {time} 예약이 완료되었습니다!")
                     except Exception as e:
                         st.error(f"예약 중 오류가 발생했습니다: {e}")
+
+# 회원가입 페이지
+def register():
+    st.header("회원가입")
+    new_username = st.text_input("새 사용자명", key="register_username")
+    new_student_id = st.text_input("학번", key="register_student_id")
+    new_phone_number = st.text_input("전화번호", key="register_phone_number")
+    
+    if st.button("가입하기"):
+        if new_username in users:
+            st.error("이미 존재하는 사용자명입니다.")
+        else:
+            users[new_username] = new_student_id  # 학번을 비밀번호 대신 저장
+            save_users(users)
+            st.success("회원가입과 로그인이 완료되었습니다! 예약 시스템 페이지로 이동하세요.")
+            st.session_state.logged_in = True
+            st.session_state.username = new_username  
+            st.session_state.student_id = new_student_id  
+            reservation_system()  # 회원가입 후 자동으로 예약 시스템으로 이동
+
+# 로그인 페이지
+def login():
+    st.header("로그인")
+    username = st.text_input("사용자명", key="login_username")
+    student_id = st.text_input("학번", key="login_student_id")
+    
+    if st.button("로그인"):
+        if username in users and users[username] == student_id:
+            st.session_state.logged_in = True
+            st.session_state.username = username
+            st.session_state.student_id = student_id  
+            st.success(f"환영합니다, {username}님!")
+            reservation_system()  # 로그인 후 자동으로 예약 시스템으로 이동
+        else:
+            st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
+
+# 예약 타임테이블 생성
+def create_timetable():
+    hours = [f"{i:02d}:00-{i+1:02d}:00" for i in range(9, 21)]
+    df = pd.DataFrame(index=hours, columns=spaces)
+    return df
+
+# 하루 최대 4시간 예약 제한 체크
+def can_reserve(username):
+    reserved_hours = sum(1 for space in spaces if space in st.session_state.reservations for user in 
+                         st.session_state.reservations[space].values() if user == username)
+    
+    return reserved_hours < 4
+
 
 # 매일 자정마다 예약 초기화 기능 추가 
 def daily_reset():
