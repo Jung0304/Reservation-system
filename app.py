@@ -168,10 +168,14 @@ def reservation_system():
                     
                     if space not in st.session_state.reservations:
                         st.session_state.reservations[space] = {}
-                    st.session_state.reservations[space][time] = st.session_state.username
                     
-                    save_reservations(st.session_state.reservations)  
-                    st.success(f"{space} - {time} 예약이 완료되었습니다!")
+                    # 예외 처리 추가
+                    try:
+                        st.session_state.reservations[space][time] = st.session_state.username
+                        save_reservations(st.session_state.reservations)  
+                        st.success(f"{space} - {time} 예약이 완료되었습니다!")
+                    except Exception as e:
+                        st.error(f"예약 중 오류가 발생했습니다: {e}")
 
 # 매일 자정마다 예약 초기화 기능 추가 
 def daily_reset():
@@ -200,9 +204,7 @@ def view_reservations():
 def main():  
    daily_reset()  
 
-   # 사이드바 메뉴 설정 - 로그인 페이지를 먼저 보여주기 위해 순서 변경 
    menu_options=["로그인","회원가입","예약 시스템","내 예약 현황"]  
-
    page=st.sidebar.selectbox("페이지 선택", menu_options)  
 
    # 선택된 페이지에 따라 함수 호출
