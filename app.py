@@ -107,7 +107,7 @@ def reservation_system():
         return
     
     # 페이지 제목 및 환영 메시지
-    st.title("당일 공간 예약 시스템")
+    st.title("예공 과방 대여")
     st.write(f"안녕하세요, {st.session_state.username}님!")
     
     today = datetime.now().date()
@@ -186,7 +186,7 @@ def main():
    daily_reset()  # 매일 자정마다 초기화 기능 호출
 
    # Streamlit 페이지 설정 및 배경 색상 추가
-   st.set_page_config(page_title="공간 예약 시스템", page_icon="📅", layout="wide")
+   st.set_page_config(page_title="예공 과방 대여", page_icon="📅", layout="wide")
 
    # CSS 스타일 추가 (배경 색상 및 폰트 스타일)
    hide_st_style = """
