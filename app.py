@@ -78,16 +78,17 @@ st.session_state.reservations = load_reservations()
 def register():
     st.header("회원가입")
     new_username = st.text_input("새 사용자명", key="register_username")
-    new_student_id = st.text_input("학번", key="register_student_id")
-    new_phone_number = st.text_input("전화번호", key="register_phone_number")
+    new_student_id = st.text_input("학번", key="register_student_id")  
+    new_phone_number = st.text_input("전화번호", key="register_phone_number")  
     
     if st.button("가입하기"):
         if new_username in users:
             st.error("이미 존재하는 사용자명입니다.")
         else:
-            users[new_username] = new_student_id  # 학번을 비밀번호 대신 저장
+            users[new_username] = new_student_id  
             save_users(users)
             st.success("회원가입과 로그인이 완료되었습니다! 예약 시스템 페이지로 이동하세요.")
+            # 로그인 상태 업데이트
             st.session_state.logged_in = True
             st.session_state.username = new_username  
             st.session_state.student_id = new_student_id  
@@ -96,7 +97,7 @@ def register():
 def login():
     st.header("로그인")
     username = st.text_input("사용자명", key="login_username")
-    student_id = st.text_input("학번", key="login_student_id")
+    student_id = st.text_input("학번", key="login_student_id")  
     
     if st.button("로그인"):
         if username in users and users[username] == student_id:
@@ -104,14 +105,15 @@ def login():
             st.session_state.username = username
             st.session_state.student_id = student_id  
             st.success(f"환영합니다, {username}님!")
+            
+            # 로그인 후 예약 시스템 페이지로 이동 (함수 호출)
             reservation_system()  
-
         else:
             st.error("로그인 실패: 사용자명 또는 학번이 잘못되었습니다.")
 
 # 예약 타임테이블 생성
 def create_timetable():
-    hours = [f"{i:02d}:00-{i+1:02d}:00" for i in range(9, 21)]
+    hours = [f"{i:02d}:00-{i+1:02d}:00" for i in range(9, 21)]  
     df = pd.DataFrame(index=hours, columns=spaces)
     return df
 
@@ -144,7 +146,7 @@ def reservation_system():
                 timetable.at[time, space] = user
 
     # 타임테이블을 표 형식으로 표시하고 버튼 추가
-    cols = st.columns(len(spaces)) 
+    cols = [st.columns(len(spaces))]
 
     # 첫 번째 행에 공간 이름 표시 
     for i, space in enumerate(spaces):
@@ -152,10 +154,10 @@ def reservation_system():
 
     # 각 공간에 대해 버튼 생성 
     for time in timetable.index:
-        cols = st.columns(len(spaces)) 
+        cols = [st.columns(len(spaces))] 
         
         for i, space in enumerate(spaces):
-            button_text = f"{time}" 
+            button_text = f"{time}"  
             
             if space in st.session_state.reservations and time in st.session_state.reservations[space]:
                 cols[i].write(f"🔒 {st.session_state.reservations[space][time]}")
@@ -199,9 +201,6 @@ def view_reservations():
 # 메인 함수 업데이트  
 def main():  
    daily_reset()  
-
-   # Streamlit 페이지 설정 및 배경 색상 추가
-   # 이미 위에서 설정했으므로 이 부분은 필요 없음
 
    # 사이드바 메뉴 설정 - 로그인 페이지를 먼저 보여주기 위해 순서 변경 
    menu_options=["로그인","회원가입","예약 시스템","내 예약 현황"]  
