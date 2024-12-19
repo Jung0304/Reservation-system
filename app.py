@@ -69,6 +69,10 @@ hide_st_style = """
         .table-container {
             overflow-x: auto; /* 가로 스크롤 가능하게 설정 */
             display: block; /* 블록으로 표시하여 모바일에서도 잘 보이도록 설정 */
+            white-space: nowrap; /* 내용이 잘리거나 쌓이지 않게 설정 */
+        }
+        .stColumn {
+            padding: 5px; /* 열에 대한 여백을 설정 */
         }
     }
     </style>
@@ -145,7 +149,7 @@ def reservation_system():
                 timetable.at[time, space] = user
 
     # 타임테이블을 표 형식으로 표시하고 버튼 추가
-    cols = st.columns(len(spaces))  
+    cols = st.columns(len(spaces))  # 화면 크기에 맞게 자동으로 조정됨
 
     # 첫 번째 행에 공간 이름 표시 
     for i, space in enumerate(spaces):
@@ -153,7 +157,7 @@ def reservation_system():
 
     # 각 공간에 대해 버튼 생성 
     for time in timetable.index:
-        cols = st.columns(len(spaces)) 
+        cols = st.columns(len(spaces))  # 각 시간마다 열을 동적으로 생성
         
         for i, space in enumerate(spaces):
             button_text = f"{time}"  
@@ -176,48 +180,45 @@ def reservation_system():
 
 # 매일 자정마다 예약 초기화 기능 추가 
 def daily_reset():
-   if 'last_reset' not in st.session_state or datetime.now().date() > datetime.fromisoformat(st.session_state.last_reset).date():
-       # 오늘 날짜로 업데이트하고 세션 상태 초기화 
-       st.session_state.last_reset = datetime.now().isoformat()
-       st.session_state.reservations.clear()  
+    if 'last_reset' not in st.session_state or datetime.now().date() > datetime.fromisoformat(st.session_state.last_reset).date():
+        # 오늘 날짜로 업데이트하고 세션 상태 초기화 
+        st.session_state.last_reset = datetime.now().isoformat()
+        st.session_state.reservations.clear()  
 
 def view_reservations():
-   if not st.session_state.logged_in:
-       st.warning("로그인 후 이용 가능합니다.")
-       return
+    if not st.session_state.logged_in:
+        st.warning("로그인 후 이용 가능합니다.")
+        return
     
-   user_reservations={space: times for space, times in st.session_state.reservations.items() if any(user == st.session_state.username for user in times.values())}
+    user_reservations = {space: times for space, times in st.session_state.reservations.items() if any(user == st.session_state.username for user in times.values())}
     
-   if not user_reservations:
-       st.write("현재 예약된 공간이 없습니다.")
-   else:
-       for space, times in user_reservations.items():
-           st.subheader(space)
-           for time, user in times.items():
-               if user == st.session_state.username:
-                   st.write(f"예약 시간: {time}")
+    if not user_reservations:
+        st.write("현재 예약된 공간이 없습니다.")
+    else:
+        for space, times in user_reservations.items():
+            st.subheader(space)
+            for time, user in times.items():
+                if user == st.session_state.username:
+                    st.write(f"예약 시간: {time}")
 
 # 메인 함수 업데이트  
 def main():  
-   daily_reset()  
+    daily_reset()  
 
-   # 사이드바 메뉴 설정 - 로그인 페이지를 먼저 보여주기 위해 순서 변경 
-   menu_options=["로그인","회원가입","예약 시스템","내 예약 현황"]  
+    # 사이드바 메뉴 설정 - 로그인 페이지를 먼저 보여주기 위해 순서 변경 
+    menu_options = ["로그인", "회원가입", "예약 시스템", "내 예약 현황"]  
 
-   page=st.sidebar.selectbox("페이지 선택", menu_options)  
+    page = st.sidebar.selectbox("페이지 선택", menu_options)  
 
-   # 선택된 페이지에 따라 함수 호출
-   if page=="회원가입":  
-       register()  
-       
-   elif page=="로그인":  
-       login()  
-
-   elif page=="예약 시스템":  
-       reservation_system()  
-
-   elif page=="내 예약 현황":  
-       view_reservations()  
+    # 선택된 페이지에 따라 함수 호출
+    if page == "회원가입":  
+        register()  
+    elif page == "로그인":  
+        login()  
+    elif page == "예약 시스템":  
+        reservation_system()  
+    elif page == "내 예약 현황":  
+        view_reservations()  
 
 if __name__ == "__main__":  
-   main()  
+    main()
