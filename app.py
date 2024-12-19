@@ -58,6 +58,8 @@ hide_st_style = """
     }
     h3 {
         font-size: 1.2em;  /* 모바일에서 제목 크기 조정 */
+        text-align: left;  /* 제목 왼쪽 정렬 */
+        margin-left: 10px;  /* 왼쪽에 여백 추가 */
     }
     @media (max-width: 600px) {
         h3 {
@@ -158,7 +160,7 @@ def reservation_system():
 
         for col, space in zip(cols, spaces[i:i + num_columns]):
             with col:
-                st.write(f"<h3 style='text-align: center;'>{space}</h3>", unsafe_allow_html=True)  # 장소 이름 크기 조정
+                st.write(f"<h3>{space}</h3>", unsafe_allow_html=True)  # 장소 이름 왼쪽 정렬
                 for time in timetable.index:
                     button_text = f"{time}"  
 
