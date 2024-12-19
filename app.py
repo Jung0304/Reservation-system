@@ -57,11 +57,11 @@ hide_st_style = """
         font-family: 'Arial', sans-serif;
     }
     h3 {
-        font-size: 1.5em;  /* 제목 크기 조정 */
+        font-size: 1.2em;  /* 모바일에서 제목 크기 조정 */
     }
     @media (max-width: 600px) {
         h3 {
-            font-size: 1.2em;  /* 모바일에서 제목 크기 조정 */
+            font-size: 1em;  /* 모바일에서 제목 크기 더 작은 크기 설정 */
         }
         .stButton {
             width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
@@ -148,13 +148,8 @@ def reservation_system():
             for time, user in st.session_state.reservations[space].items():
                 timetable.at[time, space] = user
 
-    # 모바일 화면에서 열의 수를 동적으로 조정 (너비가 좁으면 2개씩, 넓으면 다 표시)
-    if st.sidebar.selectbox("화면 크기 선택", ["모바일", "PC"]) == "모바일":
-        # 모바일 화면에서는 3개씩 열을 표시
-        num_columns = 3
-    else:
-        # PC 화면에서는 모든 열을 표시
-        num_columns = len(spaces)
+    # 모바일 화면에서 열의 수를 동적으로 조정 (최대 3개까지)
+    num_columns = 3  # 모바일에서는 항상 3개씩 열을 표시
 
     # 타임테이블을 표 형식으로 표시하고 버튼 추가
     rows = len(timetable.index)
@@ -163,7 +158,7 @@ def reservation_system():
 
         for col, space in zip(cols, spaces[i:i + num_columns]):
             with col:
-                st.write(f"<h3 style='text-align: center;'>{space}</h3>", unsafe_allow_html=True)
+                st.write(f"<h3 style='text-align: center;'>{space}</h3>", unsafe_allow_html=True)  # 장소 이름 크기 조정
                 for time in timetable.index:
                     button_text = f"{time}"  
 
