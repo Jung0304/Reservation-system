@@ -124,6 +124,7 @@ def display_timetable():
                 if cols[i].button(button_text, key=f"{space}-{time}"):
                     if not can_reserve(st.session_state.username):
                         st.warning("하루에 최대 4시간까지만 예약할 수 있습니다.")
+                        return
                     if space not in st.session_state.reservations:
                         st.session_state.reservations[space] = {}
                     st.session_state.reservations[space][time] = st.session_state.username
