@@ -124,7 +124,6 @@ def display_timetable():
                 if cols[i].button(button_text, key=f"{space}-{time}"):
                     if not can_reserve(st.session_state.username):
                         st.warning("하루에 최대 4시간까지만 예약할 수 있습니다.")
-                        return
                     if space not in st.session_state.reservations:
                         st.session_state.reservations[space] = {}
                     st.session_state.reservations[space][time] = st.session_state.username
@@ -134,7 +133,7 @@ def display_timetable():
 # 회원가입 페이지
 def register():
     st.header("회원가입")
-    new_username = st.text_input("새 사용자명", key="register_username")
+    new_username = st.text_input("성함", key="register_username")
     new_student_id = st.text_input("학번", key="register_student_id")
     new_phone_number = st.text_input("전화번호", key="register_phone_number")
 
@@ -152,7 +151,7 @@ def register():
 # 로그인 페이지
 def login():
     st.header("로그인")
-    username = st.text_input("사용자명", key="login_username")
+    username = st.text_input("성함", key="login_username")
     student_id = st.text_input("학번", key="login_student_id")
 
     if st.button("로그인"):
