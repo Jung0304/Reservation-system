@@ -31,8 +31,6 @@ hide_st_style = """
             width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
         }
     }
-    </style>
-    </style>
     .stTable {
         overflow-x: auto;
         white-space: nowrap;
