@@ -156,11 +156,16 @@ def login():
     student_id = st.text_input("학번", key="login_student_id")
 
     if st.button("로그인"):
-        if username in users and users[username] == student_id:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.session_state.student_id = student_id
-            st.success(f"환영합니다, {username}님!")
+        if username in users:
+            if users[username] == student_id:
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.session_state.student_id = student_id
+                st.success(f"환영합니다, {username}님!")
+            else:
+                st.error("로그인 실패: 학번이 일치하지 않습니다.")
+        else:
+            st.error("로그인 실패: 존재하지 않는 사용자명입니다.")
 
     if st.session_state.logged_in:
         st.subheader("예공 과방 예약")
@@ -185,16 +190,16 @@ def view_reservations():
 
 # 메인 함수
 def main():
-    menu_options = ["로그인", "회원가입", "예약 시스템", "내 예약 현황"]
+    menu_options = ["로그인", "회원가입", "예약 페이지", "내 예약 현황"]
     page = st.sidebar.selectbox("페이지 선택", menu_options)
 
     if page == "로그인":
         login()
     elif page == "회원가입":
         register()
-    elif page == "예약 시스템":
+    elif page == "예약 페이지":
         if st.session_state.logged_in:
-            st.header("예약 시스템")
+            st.header("예약 페이지")
             display_timetable()
         else:
             st.warning("로그인 후 이용 가능합니다.")
