@@ -11,7 +11,7 @@ RESERVATIONS_FILE = "reservations.json"  # 예약 정보를 저장할 파일
 spaces = ["GRAY", "BLUE", "SILVER", "GOLD", "GLAB1", "GLAB2"]
 
 # Streamlit 페이지 설정
-st.set_page_config(page_title="공간 예약 시스템", page_icon="📅", layout="wide")
+st.set_page_config(page_title="예공 과방 예약", page_icon="📅", layout="wide")
 
 # CSS 스타일 추가 (배경 색상 및 폰트 스타일)
 hide_st_style = """
@@ -163,7 +163,7 @@ def login():
             st.success(f"환영합니다, {username}님!")
 
     if st.session_state.logged_in:
-        st.subheader("당일 공간 예약 시스템")
+        st.subheader("예공 과방 예약")
         display_timetable()
 
 # 예약 현황 페이지
