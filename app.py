@@ -31,13 +31,6 @@ hide_st_style = """
             width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
         }
     }
-    .stTable {
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    .stTable th, .stTable td{
-        min-width: 100px;
-    }
     </style>
 """
 st.markdown(hide_st_style, unsafe_allow_html=True)
