@@ -14,26 +14,58 @@ spaces = ["GRAY", "BLUE", "SILVER", "GOLD", "GLAB1", "GLAB2"]
 st.set_page_config(page_title="예공 과방 예약", page_icon="📅", layout="wide")
 
 # CSS 스타일 추가 (배경 색상 및 폰트 스타일)
-hide_st_style = """
-    <style>
-    .main {
-        background-color: #f0f0f5;
-        font-family: 'Arial', sans-serif;
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto repeat(24, 1fr);
+  }
+  .grid-item {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+  }
+  .space-name {
+    font-weight: bold;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr;
     }
-    h3 {
-        font-size: 1.5em;  /* 제목 크기 조정 */
+    .grid-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    @media (max-width: 600px) {
-        h3 {
-            font-size: 1.2em;  /* 모바일에서 제목 크기 조정 */
-        }
-        .stButton {
-            width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
-        }
+    .space-name {
+      flex: 1;
     }
-    </style>
-"""
-st.markdown(hide_st_style, unsafe_allow_html=True)
+    .time-slot {
+      flex: 1;
+      text-align: right;
+    }
+  }
+</style>
+
+<div class="grid-container">
+  <div class="grid-item space-name">공간</div>
+  <!-- 시간 헤더 -->
+  <div class="grid-item">00:00</div>
+  <div class="grid-item">01:00</div>
+  <!-- ... 다른 시간 슬롯 ... -->
+  
+  <!-- 각 공간에 대한 행 -->
+  <div class="grid-item space-name">공간 1</div>
+  <div class="grid-item time-slot">예약 가능</div>
+  <div class="grid-item time-slot">예약됨</div>
+  <!-- ... 다른 시간 슬롯 ... -->
+  
+  <div class="grid-item space-name">공간 2</div>
+  <div class="grid-item time-slot">예약 가능</div>
+  <div class="grid-item time-slot">예약 가능</div>
+  <!-- ... 다른 시간 슬롯 ... -->
+</div>
+
 
 # 세션 상태 초기화
 if 'logged_in' not in st.session_state:
