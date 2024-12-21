@@ -21,24 +21,24 @@ hide_st_style = """
         font-family: 'Arial', sans-serif;
     }
     h3 {
-        font-size: 1.5em;
-    }
-    .stTable {
-        overflow-x: auto;
+        font-size: 1.5em;  /* 제목 크기 조정 */
     }
     @media (max-width: 600px) {
         h3 {
-            font-size: 1.2em;
+            font-size: 1.2em;  /* 모바일에서 제목 크기 조정 */
         }
         .stButton {
-            width: 100%;
+            width: 100%;  /* 버튼을 화면 너비에 맞게 조정 */
         }
-        .stTable {
-            font-size: 0.8em;
-        }
-        .stTable th, .stTable td {
-            padding: 5px;
-        }
+    }
+    </style>
+    </style>
+    .stTable {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .stTable th, .stTable td{
+        min-width: 100px;
     }
     </style>
 """
